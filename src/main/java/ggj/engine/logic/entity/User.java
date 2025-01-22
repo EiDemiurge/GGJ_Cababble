@@ -25,6 +25,7 @@ public class User extends ChatEntity<ModelChat.ChatUser> {
 
     @Override
     public ModelChat.ChatUser createModel() {
+        //TODO
         return new ModelChat.ChatUser(props.get(UserProp.NAME), null, null, 0, 0);
     }
 

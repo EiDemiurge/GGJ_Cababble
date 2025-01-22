@@ -12,7 +12,7 @@ public class ModelChat {
 
     }
 
-    public record ChatUserMessage(int userId, String message) implements EntityModel {
+    public record ChatUserMessage(int userId, String message, int upvotes, int downvotes) implements EntityModel {
 
     }
     //maybe not? Can it be just a string without anything else?

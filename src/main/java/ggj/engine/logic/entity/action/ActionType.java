@@ -14,7 +14,7 @@ public enum ActionType {
     BAN(Game_Event.BAN_PLAYER),
     BAN_PLAYER(Game_Event.BAN_PLAYER),
     EXIT(Game_Event.EXIT_NPC),
-;
+    WAIT(null);
     Game_Event linkedEvent;
 
     ActionType(Game_Event linkedEvent) {

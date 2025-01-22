@@ -9,6 +9,8 @@ import static ggj.engine.logic.model.ModelChat.ChatUserMessage;
 public enum MsgParam implements Parameter<ChatUserMessage> {
 
     USER_ID(ChatUserMessage::userId),
+    UPVOTES(ChatUserMessage::upvotes),
+    DOWNVOTES(ChatUserMessage::downvotes),
 
     ;
     private final Function<ChatUserMessage, Integer> getter;

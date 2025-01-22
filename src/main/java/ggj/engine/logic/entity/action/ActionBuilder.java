@@ -40,13 +40,15 @@ public class ActionBuilder {
 
     public Actions.Action build() {
         Game_Event eventType = type.linkedEvent;
-        if (keys == null && keyString != null) {
-            keys = keyString.split("\\|");
-        } else {
-            stdKeys();
-        }
-        if (keys.length != values.length) {
-            // throw new RuntimeException("Invalid action data: (keys, values)" + Format.arrays(keys, values));
+        if (eventType != null) {
+            if (keys == null && keyString != null) {
+                keys = keyString.split("\\|");
+            } else {
+                stdKeys();
+            }
+            if (keys.length != values.length) {
+                // throw new RuntimeException("Invalid action data: (keys, values)" + Format.arrays(keys, values));
+            }
         }
         return new Actions.Action(eventType, keys, values);
     }

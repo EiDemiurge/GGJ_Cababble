@@ -9,10 +9,12 @@ import static ggj.engine.logic.entity.action.Actions.action;
 
 public class ScriptActionProvider implements ActionProvider {
     int step = 0;
-    Actions.Action[] scriptedAction = {
+    public static final Actions.Action[] scriptedAction = {
 
             action(ActionType.MESSAGE).stdKeys().values("1|0|Admin is a muggle").build(),
-            //how to deal with TIME?!
+            action(ActionType.WAIT).build(),
+            //WAIT action?
+            action(ActionType.MESSAGE).stdKeys().values("3|1|Admin is a WIZARD").build(),
 
     };
 

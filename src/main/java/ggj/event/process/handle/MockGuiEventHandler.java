@@ -9,9 +9,12 @@ import static ggj.event.model.Gui_Event.*;
 public class MockGuiEventHandler implements EventHandler<GuiEvent> {
 
     private final Function<Integer, ModelChat.ChatUser> userDataProvider;
+    private final Function<Integer, ModelChat.ChatRoom> roomDataProvider;
 
-    public MockGuiEventHandler(Function<Integer, ModelChat.ChatUser> userDataProvider) {
+    public MockGuiEventHandler(Function<Integer, ModelChat.ChatUser> userDataProvider,
+                               Function<Integer, ModelChat.ChatRoom> roomDataProvider) {
         this.userDataProvider = userDataProvider;
+        this.roomDataProvider = roomDataProvider;
     }
 
     @Override
@@ -20,9 +23,12 @@ public class MockGuiEventHandler implements EventHandler<GuiEvent> {
             case CHAT_MSG_APPEND -> {
 
                 Integer userId = event.args().num("userId");
+                Integer roomId = event.args().num("roomId");
                 ModelChat.ChatUser data = userDataProvider.apply(userId);
+                ModelChat.ChatRoom room = roomDataProvider.apply(roomId);
 
-                System.out.println(data.name()+ " writes: \n" + event.args().string("message"));
+                System.out.println(
+                        "[%s] %s writes: \n - '%s'".formatted(room.name(), data.name(), event.args().string("message")));
             }
         }
     }

@@ -40,7 +40,7 @@ public class Events {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        Log.info("Event added to queue: " + ggj.util.Format.event(event));
+        Log.info("Added to queue: " + ggj.util.Format.event(event));
     }
 
     private static <T extends EventType> void validateEvent(Event<T> event) {

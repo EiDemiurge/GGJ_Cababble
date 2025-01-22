@@ -6,6 +6,7 @@ import ggj.util.meta.Inject;
 import java.util.List;
 
 import static ggj.engine.logic.entity.action.Actions.*;
+import static ggj.engine.logic.entity.action.impl.ScriptActionProvider.scriptedAction;
 
 public class UserActProcessor {
 
@@ -25,8 +26,10 @@ public class UserActProcessor {
     public static void start() {
         //TODO does it ever pause? it should be able to exit for main menu e.g.
         // while (true) {
+        for (int i = 0; i < scriptedAction.length; i++) {
             updateGenerators();
             process();
+        }
         // }
     }
 

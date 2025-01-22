@@ -38,24 +38,28 @@ public class Setup {
         var userProcessor = new QueueProcessor<>(newQueue(UserEvent.class), new UserEventHandler(
                 () -> Entities.PLAYER.createModel(),
                 () -> Entities.PLAYER.getUuid()));
-        var guiProcessor = new QueueProcessor<>(newQueue(GuiEvent.class), new MockGuiEventHandler(id -> Entities.findUser(id).createModel()));
+        var guiProcessor = new QueueProcessor<>(newQueue(GuiEvent.class), new MockGuiEventHandler(
+                id -> Entities.findUser(id).createModel(),
+                id -> Entities.findRoom(id).createModel()
+        ));
         var gameProcessor = new QueueProcessor<>(newQueue(GameEvent.class), new GameEventHandler());
 
         ProcessorLauncher.setup(engineProcessor, userProcessor, guiProcessor, gameProcessor);
 
         ////---------------------------------------------------------------------------\\\\
+
         User player = new User(new ChatUser("The Hero", "Newbie", "", 0, 0));
         EntityProvider<User> userProvider = id -> GameState.getState().users.stream().filter(user -> user.getId() == id).findAny().get();
-        // EntityProvider<User> roomProvider = id -> GameState.getState().rooms.stream().filter(user -> user.getId() == id).findAny().get();
+        EntityProvider<Room> roomProvider = id -> GameState.getState().rooms.stream().filter(room -> room.getId() == id).findAny().get();
 
-        Entities.setup(player, userProvider);
+        Entities.setup(player, userProvider, roomProvider);
 
         ////---------------------------------------------------------------------------\\\\
 
         UserActProcessor.setup(new ScriptActionProvider());
 
         ////---------------------------------------------------------------------------\\\\
-        //on game start?
+
         List<User> users = new ArrayList<>();
         users.add(Entities.PLAYER);
         users.add(new User(Bob.get()));
@@ -67,10 +71,12 @@ public class Setup {
         List<Room> rooms = new ArrayList<>();
         //take from DEMO?
         rooms.add(new Room(new ChatRoom("Talkinists", "")));
+        rooms.add(new Room(new ChatRoom("Dawkinists", "")));
         GameState.create(new Game(new ChatGame(50, "You bastards!")),
                 users, rooms);
 
         ////---------------------------------------------------------------------------\\\\
+
         List<UserActGen> gens = new ArrayList<>();
         gens.add(new UserActGen());
         // for (int i = 1; i < users.size(); i++) {

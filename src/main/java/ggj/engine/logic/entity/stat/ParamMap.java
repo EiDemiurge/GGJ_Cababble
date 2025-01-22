@@ -14,4 +14,8 @@ public class ParamMap<E extends ModelChat.EntityModel> {
     public Integer get(Object key) {
         return map.get(key);
     }
+
+    public void increment(Parameter<E> param) {
+        put(param, map.get(param) + 1);
+    }
 }

@@ -1,9 +1,13 @@
 package ggj.engine.logic.entity;
 
+import ggj.engine.logic.entity.stat.ParamMap;
 import ggj.engine.logic.entity.stat.Parameter;
+import ggj.engine.logic.entity.stat.PropMap;
 import ggj.engine.logic.entity.stat.Property;
 import ggj.engine.logic.entity.stat.param.RoomParam;
 import ggj.engine.logic.entity.stat.prop.RoomProp;
+import ggj.engine.logic.entity.stat.prop.UserProp;
+import ggj.engine.logic.model.ModelChat;
 
 import static ggj.engine.logic.model.ModelChat.*;
 
@@ -16,6 +20,12 @@ public class Room extends ChatEntity<ChatRoom> {
 
     public Room(ChatRoom model) {
         super(model);
+    }
+
+    @Override
+    protected ChatRoom copyWith(ChatRoom model, ParamMap<ChatRoom> current, PropMap<ChatRoom> props) {
+        //TODO
+        return new ChatRoom(props.get(RoomProp.NAME), null);
     }
 
     @Override

@@ -65,7 +65,9 @@ public abstract class ChatEntity<M extends EntityModel> {
     public EntityDataWrite<M> write() {
         return EntityDataWriteProvider.write(
                 (param, i) -> current.put(param, i),
-                (prop, val) -> props.put(prop, val));
+                (prop, val) -> props.put(prop, val),
+                (param) -> current.increment(param)
+                );
     }
 
     public EntityDataRead<M> read() {

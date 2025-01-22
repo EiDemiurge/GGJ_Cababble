@@ -1,5 +1,6 @@
 package ggj.util;
 
+import ggj.engine.logic.state.GameState;
 import ggj.event.model.api.Event;
 import ggj.util.datastruct.StringMap;
 
@@ -7,8 +8,7 @@ import java.util.Map;
 
 public class Format {
     public static String event(Event<?> event) {
-
-        return format("%s: [%s]", event.type().toString(), event.args());
+        return format("%s - %s: %s", event.getClass().getSimpleName(), event.type().toString(), event.args());
     }
 
     private static String format(String base, Object... args) {
@@ -30,5 +30,10 @@ public class Format {
             body.append(o).append(",");
         }
         return "[%s]".formatted(body);
+    }
+
+    public static String state(GameState state) {
+        // state.rooms
+        return null;
     }
 }

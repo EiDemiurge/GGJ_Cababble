@@ -9,9 +9,17 @@ public class GameEventHandler implements EventHandler<Game_Event.GameEvent> {
     @Override
     public void accept(Game_Event.GameEvent gameEvent) {
         switch (gameEvent.type()) {
+            case UPVOTE -> {
+                int msgId = gameEvent.args().num("msgId");
+                int sourceId = gameEvent.args().num("sourceId");
+                ggj.engine.rules.Rules.upvote(msgId, sourceId);
+                //just update ui?
+                Events.gui(Gui_Event.CHAT_MSG_UPVOTED).args(gameEvent.args()).fire();
+            }
             case MSG_SENT_NPC -> {
 
                 gameEvent.args().num("userId");
+                // Rules.processMsgImpact();
                 //How to ensure that I don't get fucked by invisible args?
 
 
