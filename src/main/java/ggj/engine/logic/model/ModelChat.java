@@ -20,7 +20,7 @@ public class ModelChat {
 
     }
 
-    public record ChatRoom() implements EntityModel {
+    public record ChatRoom(String name, String icon) implements EntityModel {
 
     }
 

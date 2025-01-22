@@ -11,7 +11,7 @@ public class ScriptActionProvider implements ActionProvider {
     int step = 0;
     Actions.Action[] scriptedAction = {
 
-            action(ActionType.MESSAGE).keys("name;room;source").values("Dobby;WizzyWaz;Admin").build(),
+            action(ActionType.MESSAGE).keys("userId|roomId|message").values("1|0|Admin is a muggle").build(),
             //how to deal with TIME?!
 
     };

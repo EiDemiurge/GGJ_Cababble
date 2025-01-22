@@ -31,7 +31,11 @@ public class Events {
     //add block() to wait until handled?
 
     public static <T extends EventType> void fire(Event<T> event) {
-        queueMap.get(event.getClass()).put(event);
+        try {
+            queueMap.get(event.getClass()).put(event);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         Log.info("Event added to queue: " + ggj.util.Format.event(event));
     }
 
@@ -89,7 +93,7 @@ public class Events {
         //should go into StringMapGeneric?
         public Integer num(String key){
             // optional?
-            return Integer.getInteger(kwargs.get(key).toString());
+            return Integer.valueOf(kwargs.get(key).toString());
         }
     }
 

@@ -12,9 +12,14 @@ created from a template, but they DO have their associated state!
  */
 public class User extends ChatEntity<ModelChat.ChatUser> {
 
-    // Npc npc;
+    // Npc npc; only when we actually impl some LOGIC
     public User(ModelChat.ChatUser model) {
         super(model);
+    }
+
+    @Override
+    public ModelChat.ChatUser createModel() {
+        return new ModelChat.ChatUser(props.get(UserProp.NAME), null, null, 0,0);
     }
 
     @Override

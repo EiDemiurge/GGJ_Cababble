@@ -14,9 +14,8 @@ public class GameState {
     public static GameState getState() {
         return state;
     }
-    public static void create(){
-        //TODO
-        // state = new GameState(game, users, rooms);
+    public static void create(Game game, List<User> users, List<Room> rooms){
+        state = new GameState(game, users, rooms);
     }
 
     public final Game game;

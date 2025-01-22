@@ -18,21 +18,27 @@ public class ActionBuilder {
         return this;
     }
 
+    public ActionBuilder values(String valuesString) {
+        this.values = valuesString.split("\\|");
+        return this;
+    }
+
     public ActionBuilder keys(String[] keys) {
         this.keys = keys;
         return this;
     }
+
     public ActionBuilder keys(String keyString) {
         this.keyString = keyString;
         return this;
     }
 
-    public Actions.Action build(){
+    public Actions.Action build() {
         Game_Event eventType = type.linkedEvent;
         if (keys == null && keyString != null) {
-            keys = keyString.split(";");
+            keys = keyString.split("\\|");
         }
-        if (keys.length != values.length){
+        if (keys.length != values.length) {
             // throw new RuntimeException("Invalid action data: (keys, values)" + Format.arrays(keys, values));
         }
         return new Actions.Action(eventType, keys, values);

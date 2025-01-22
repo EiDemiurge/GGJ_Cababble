@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 /*
 A naive impl at least - what does user do over time?
  */
-public class UserActGen {
+public class UserActGen { //interface and mock
     /*
     state - last action, ...
     all RPG data is passed via events so that the supplier will have updated READ ONLY data for us
@@ -19,8 +19,9 @@ public class UserActGen {
     Actions.Action previousAction;
 
     public boolean update() {
-        data = userData.get();
-        return data != null;
+        // data = userData.get();
+        // return data != null;
+        return true;
     }
 
     public Actions.Action getPreviousAction() {

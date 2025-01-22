@@ -76,6 +76,10 @@ public abstract class ChatEntity<M extends EntityModel> {
 
     public abstract EntityType getType();
 
+    public int getId() {
+        return id;
+    }
+
     public TargetRef getRef() {
         return new TargetRef(id);
     }

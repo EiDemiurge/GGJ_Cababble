@@ -8,28 +8,25 @@ import java.util.function.BiFunction;
 
 public class EventBuilder<T extends EventType> {
 
-    private T type;
+    private final T type;
     private BiFunction<T, Events.EventArgs, Event<T>> creator;
     private String[] keys;
     private Object[] values;
     private Object value;
-    private String key;
-    Events.EventArgs args;
+    private Events.EventArgs args;
 
     public EventBuilder<T> creator(BiFunction<T, Events.EventArgs, Event<T>> creator) {
         this.creator = creator;
         return this;
     }
 
-    // public EventBuilder<T> value(String key, Object value) {
-    //     return this;
-    // }
+    public EventBuilder<T> args(Events.EventArgs args) {
+        this.args = args;
+        return this;
+    }
 
     public EventBuilder<T> with(Object value) {
         this.value = value;
-        // if (args != null) {
-        //     throw new RuntimeException("Double init of event args with " + value);
-        // }
         return this;
     }
 
