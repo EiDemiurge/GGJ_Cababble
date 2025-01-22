@@ -27,6 +27,16 @@ public enum Gui_Event implements EventType {
     INFO_CHANGED,
 
 ;
+    String[] stdKeys;
+
+    Gui_Event(String... stdKeys) {
+        this.stdKeys = stdKeys;
+    }
+
+    @Override
+    public String[] stdKeys() {
+        return stdKeys;
+    }
 
     public record GuiEvent(Gui_Event type, Events.EventArgs args) implements Event<Gui_Event> {
 

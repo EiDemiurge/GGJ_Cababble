@@ -9,10 +9,11 @@ import ggj.engine.logic.entity.stat.access.EntityDataWriteProvider;
 import static ggj.engine.logic.model.ModelChat.*;
 
 public abstract class ChatEntity<M extends EntityModel> {
-    public static int ID = 0;
+    public static int GLOBAL_ID = 0;
 
     private final M model;
-    protected int id; //global vs entity-group-id?
+    protected int uuid; //global
+    protected int id;   //within entity-group
     protected ParamMap<M> base;
     protected ParamMap<M> current;
     protected PropMap<M> props;
@@ -20,15 +21,17 @@ public abstract class ChatEntity<M extends EntityModel> {
 
     public ChatEntity(M model) {
         this.model = model;
-        id = ID++;
+        uuid = GLOBAL_ID++;
         base = createParams(model);
         props = createProps(model);
-
+        id = newId();
     }
+
+    protected abstract int newId();
 
     //MOVE
     private ParamMap<M> createParams(M model) {
-        ParamMap<M> map= new ParamMap<>();
+        ParamMap<M> map = new ParamMap<>();
         for (Parameter<M> enumConstant : getParamConstants()) {
             int value = enumConstant.value(model);
             map.put(enumConstant, value);
@@ -37,25 +40,27 @@ public abstract class ChatEntity<M extends EntityModel> {
     }
 
     private PropMap<M> createProps(M model) {
-        PropMap<M> map= new PropMap<>();
+        PropMap<M> map = new PropMap<>();
         for (Property<M> enumConstant : getPropConstants()) {
             String value = enumConstant.value(model);
             map.put(enumConstant, value);
         }
         return map;
     }
+
     protected abstract Property<M>[] getPropConstants();
+
     protected abstract Parameter<M>[] getParamConstants();
 
+    /* Implement this per class */
     protected M copyWith(M model, ParamMap<M> current, PropMap<M> props) {
         throw new RuntimeException("Can't copy " + this);
     }
 
-    //share only read-only data using such methods
+    /* share only read-only data using such methods */
     public M createModel() {
         return copyWith(model, current, props);
     }
-
 
     public EntityDataWrite<M> write() {
         return EntityDataWriteProvider.write(
@@ -80,8 +85,12 @@ public abstract class ChatEntity<M extends EntityModel> {
         return id;
     }
 
+    public int getUuid() {
+        return uuid;
+    }
+
     public TargetRef getRef() {
-        return new TargetRef(id);
+        return new TargetRef(uuid);
     }
 
     public record TargetRef(int id) {

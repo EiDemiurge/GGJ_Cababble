@@ -28,6 +28,11 @@ public class ActionBuilder {
         return this;
     }
 
+    public ActionBuilder stdKeys() {
+        this.keys = type.linkedEvent.stdKeys();
+        return this;
+    }
+
     public ActionBuilder keys(String keyString) {
         this.keyString = keyString;
         return this;
@@ -37,6 +42,8 @@ public class ActionBuilder {
         Game_Event eventType = type.linkedEvent;
         if (keys == null && keyString != null) {
             keys = keyString.split("\\|");
+        } else {
+            stdKeys();
         }
         if (keys.length != values.length) {
             // throw new RuntimeException("Invalid action data: (keys, values)" + Format.arrays(keys, values));

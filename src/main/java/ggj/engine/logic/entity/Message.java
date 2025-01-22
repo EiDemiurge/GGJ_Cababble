@@ -13,8 +13,15 @@ public class Message extends ChatEntity<ChatUserMessage> {
     public static final Property<ModelChat.ChatUserMessage>[] props = MsgProp.values();
     public static final Parameter<ModelChat.ChatUserMessage>[] params = MsgParam.values();
 
+    private static int MSG_ID=0;
+
     public Message(ChatUserMessage model) {
         super(model);
+    }
+
+    @Override
+    protected int newId() {
+        return MSG_ID++;
     }
 
     @Override

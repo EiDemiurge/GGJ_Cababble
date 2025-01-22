@@ -2,11 +2,11 @@ package ggj.util.datastruct;
 
 import java.util.HashMap;
 
-public class StringMap extends HashMap<String, Object> {
-    public StringMap() {
+public class GenericStringMap<T> extends HashMap<String, T> {
+    public GenericStringMap() {
     }
 
-    public StringMap(String[] keys, Object[] values) {
+    public GenericStringMap(String[] keys, T[] values) {
         super();
         int i = 0;
         for (String key : keys) {
@@ -15,12 +15,12 @@ public class StringMap extends HashMap<String, Object> {
     }
 
     @Override
-    public Object get(Object key) {
+    public T get(Object key) {
         return super.get(key.toString().toLowerCase());
     }
 
     @Override
-    public Object put(String key, Object value) {
+    public T put(String key, T value) {
         return super.put(key.toLowerCase(), value);
     }
 }

@@ -14,12 +14,15 @@ import ggj.event.model.Gui_Event.GuiEvent;
 import ggj.event.model.api.Event;
 import ggj.event.model.api.EventType;
 import ggj.event.process.EventQueue;
+import ggj.util.Format;
 import ggj.util.Log;
 import ggj.util.datastruct.StringMap;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 // @Getter for static fields?
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -31,12 +34,23 @@ public class Events {
     //add block() to wait until handled?
 
     public static <T extends EventType> void fire(Event<T> event) {
+        validateEvent(event);
         try {
             queueMap.get(event.getClass()).put(event);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         Log.info("Event added to queue: " + ggj.util.Format.event(event));
+    }
+
+    private static <T extends EventType> void validateEvent(Event<T> event) {
+        if (!event.args().kwargs.keySet().containsAll(
+            Arrays.stream(event.type().stdKeys()).map(String::toLowerCase).collect(Collectors.toSet())
+        )) {
+            throw new RuntimeException("Invalid event: %s, required keys: %s"
+                    .formatted(Format.array(event.args().kwargs.keySet().toArray(new String[0])),
+                               Format.array(event.type().stdKeys())));
+        }
     }
 
     public static <E extends Event<?>> EventQueue<E> newQueue(Class<E> clazz) {
@@ -67,25 +81,12 @@ public class Events {
 
 
     public static class EventArgs {
-        public final StringMap<?> kwargs;
-        public final Object[] args;
+        public final StringMap kwargs;
 
-        public EventArgs(Object... args) {
-            this(null, args);
-        }
-
-        public EventArgs(StringMap<?> kwargs) {
-            this(kwargs, null);
-        }
-
-        public EventArgs(StringMap<?> kwargs, Object... args) {
+        public EventArgs(StringMap kwargs) {
             this.kwargs = kwargs;
-            this.args = args;
         }
 
-        public String value(){
-            return args[0].toString();
-        }
         public String string(String key){
             return kwargs.get(key).toString();
         }
@@ -95,11 +96,20 @@ public class Events {
             // optional?
             return Integer.valueOf(kwargs.get(key).toString());
         }
+
+        @Override
+        public String toString() {
+            return Format.map(kwargs);
+        }
+
+        public void put(String key, Object value) {
+            kwargs.put(key, value);
+        }
     }
 
     public static class EmptyEventArgs extends EventArgs {
         public EmptyEventArgs() {
-            super(new StringMap<>());
+            super(new StringMap());
         }
     }
 }

@@ -1,13 +1,11 @@
 package ggj.engine;
 
-import ggj.engine.logic.entity.ChatEntity;
 import ggj.engine.logic.entity.Game;
 import ggj.engine.logic.entity.Room;
 import ggj.engine.logic.entity.User;
 import ggj.engine.logic.entity.action.impl.ScriptActionProvider;
 import ggj.engine.logic.generator.UserActGen;
 import ggj.engine.logic.generator.UserActProcessor;
-import ggj.engine.logic.model.ModelChat;
 import ggj.engine.logic.state.Entities;
 import ggj.engine.logic.state.EntityProvider;
 import ggj.engine.logic.state.GameState;
@@ -21,7 +19,7 @@ import ggj.event.process.handle.UserEventHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ggj.engine.Setup.StdUsers.*;
+import static ggj.demo.Demo.StdUsers.*;
 import static ggj.engine.logic.model.ModelChat.*;
 import static ggj.event.build.Events.*;
 import static ggj.event.model.Engine_Event.*;
@@ -37,7 +35,9 @@ public class Setup {
     public static void run() {
 
         var engineProcessor = new QueueProcessor<>(newQueue(EngineEvent.class), new EngineEventHandler());
-        var userProcessor = new QueueProcessor<>(newQueue(UserEvent.class), new UserEventHandler(() -> Entities.PLAYER.createModel()));
+        var userProcessor = new QueueProcessor<>(newQueue(UserEvent.class), new UserEventHandler(
+                () -> Entities.PLAYER.createModel(),
+                () -> Entities.PLAYER.getUuid()));
         var guiProcessor = new QueueProcessor<>(newQueue(GuiEvent.class), new MockGuiEventHandler(id -> Entities.findUser(id).createModel()));
         var gameProcessor = new QueueProcessor<>(newQueue(GameEvent.class), new GameEventHandler());
 
@@ -65,6 +65,7 @@ public class Setup {
         users.add(Entities.PLAYER);
 
         List<Room> rooms = new ArrayList<>();
+        //take from DEMO?
         rooms.add(new Room(new ChatRoom("Talkinists", "")));
         GameState.create(new Game(new ChatGame(50, "You bastards!")),
                 users, rooms);
@@ -79,18 +80,4 @@ public class Setup {
         UserActProcessor.gameStarted(gens);
     }
 
-public enum StdUsers {
-    Bob(new ChatUser("Dobby","","",0,0)),
-    Admin(new ChatUser("Adamin","","",0,0)),
-    ;
-    final ChatUser user;
-
-    StdUsers(ChatUser user) {
-        this.user = user;
-    }
-
-    public ChatUser get(){
-            return user;
-        }
-}
 }

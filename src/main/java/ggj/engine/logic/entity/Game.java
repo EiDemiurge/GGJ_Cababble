@@ -16,6 +16,11 @@ public class Game extends ChatEntity<ModelChat.ChatGame> {
     }
 
     @Override
+    protected int newId() {
+        return 0;
+    }
+
+    @Override
     protected Property<ModelChat.ChatGame>[] getPropConstants() {
         return props;
     }

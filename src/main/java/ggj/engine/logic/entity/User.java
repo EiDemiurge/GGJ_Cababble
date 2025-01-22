@@ -5,7 +5,6 @@ import ggj.engine.logic.entity.stat.Property;
 import ggj.engine.logic.entity.stat.param.UserParam;
 import ggj.engine.logic.entity.stat.prop.UserProp;
 import ggj.engine.logic.model.ModelChat;
-import ggj.engine.rpg.model.ModelRpg;
 
 /*
 created from a template, but they DO have their associated state!
@@ -13,13 +12,20 @@ created from a template, but they DO have their associated state!
 public class User extends ChatEntity<ModelChat.ChatUser> {
 
     // Npc npc; only when we actually impl some LOGIC
+    private static int USER_ID = 0;
+
     public User(ModelChat.ChatUser model) {
         super(model);
     }
 
     @Override
+    protected int newId() {
+        return USER_ID++;
+    }
+
+    @Override
     public ModelChat.ChatUser createModel() {
-        return new ModelChat.ChatUser(props.get(UserProp.NAME), null, null, 0,0);
+        return new ModelChat.ChatUser(props.get(UserProp.NAME), null, null, 0, 0);
     }
 
     @Override

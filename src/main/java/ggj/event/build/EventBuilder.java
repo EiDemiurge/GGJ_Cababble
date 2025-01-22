@@ -12,7 +12,6 @@ public class EventBuilder<T extends EventType> {
     private BiFunction<T, Events.EventArgs, Event<T>> creator;
     private String[] keys;
     private Object[] values;
-    private Object value;
     private Events.EventArgs args;
 
     public EventBuilder<T> creator(BiFunction<T, Events.EventArgs, Event<T>> creator) {
@@ -22,11 +21,6 @@ public class EventBuilder<T extends EventType> {
 
     public EventBuilder<T> args(Events.EventArgs args) {
         this.args = args;
-        return this;
-    }
-
-    public EventBuilder<T> with(Object value) {
-        this.value = value;
         return this;
     }
 
@@ -42,10 +36,7 @@ public class EventBuilder<T extends EventType> {
 
     public void fire() {
         if (keys !=null && values !=null){
-            this.args = new Events.EventArgs(new StringMap<>(keys, values));
-        }
-        if (value !=null){
-            this.args = new Events.EventArgs(value);
+            this.args = new Events.EventArgs(new StringMap(keys, values));
         }
         if (args == null){
             this.args = new Events.EmptyEventArgs();

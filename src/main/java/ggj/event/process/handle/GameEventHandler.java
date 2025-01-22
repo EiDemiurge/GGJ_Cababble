@@ -10,7 +10,11 @@ public class GameEventHandler implements EventHandler<Game_Event.GameEvent> {
     public void accept(Game_Event.GameEvent gameEvent) {
         switch (gameEvent.type()) {
             case MSG_SENT_NPC -> {
-                // gameEvent.args().num("userId");
+
+                gameEvent.args().num("userId");
+                //How to ensure that I don't get fucked by invisible args?
+
+
                 // String username = gameEvent.args().string("username");
                 //update some RPG state - how does this message impact others?
                 //keyword may have been added
