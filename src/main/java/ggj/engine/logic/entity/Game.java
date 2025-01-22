@@ -16,6 +16,11 @@ public class Game extends ChatEntity<ModelChat.ChatGame> {
     }
 
     @Override
+    protected void added() {
+        //do nothing
+    }
+
+    @Override
     protected int newId() {
         return 0;
     }

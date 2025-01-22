@@ -12,8 +12,8 @@ public class AgencyController {
         return AgencyController::canSendMessage;
     }
     public static boolean canSendMessage(String message){
-        int agency = GameState.getState().game.read().param(GameParam.AGENCY);
-        String base = GameState.getState().game.read().prop(GameProp.BASE_MESSAGE);
+        int agency = GameState.getState().game.reader().param(GameParam.AGENCY);
+        String base = GameState.getState().game.reader().prop(GameProp.BASE_MESSAGE);
         return DiffCalc.calc(base, message) <= agency;
     }
 

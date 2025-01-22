@@ -4,11 +4,8 @@ import ggj.engine.logic.entity.Game;
 import ggj.engine.logic.entity.Message;
 import ggj.engine.logic.entity.Room;
 import ggj.engine.logic.entity.User;
-import ggj.engine.logic.entity.stat.ParamMap;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 public class GameState {
 
@@ -17,22 +14,19 @@ public class GameState {
     public static GameState getState() {
         return state;
     }
-    public static void create(Game game, List<User> users, List<Room> rooms){
-        state = new GameState(game, users, rooms);
+    public static void create(Game game, Set<User> users, Set<Room> rooms, Set<Message> messages){
+        state = new GameState(game, users, rooms, messages);
     }
 
     public final Game game;
-    public final List<User> users;
-    public final List<Room> rooms;
+    public final Set<User> users;
+    public final Set<Room> rooms;
+    public final Set<Message> messages;
 
-    //TODO how to keep these up to date?
-    private final Map<Integer, List<Message>> roomIdToMsg = new HashMap<>();
-    private final Map<Integer, List<User>> roomIdToUser = new HashMap<>();
-    private final Map<Integer, List<Message>> userIdToMsg = new HashMap<>();
-
-    private GameState(Game game, List<User> users, List<Room> rooms) {
+    private GameState(Game game, Set<User> users, Set<Room> rooms, Set<Message> messages) {
         this.game = game;
         this.users = users;
         this.rooms = rooms;
+        this.messages = messages;
     }
 }

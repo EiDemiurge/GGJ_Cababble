@@ -8,11 +8,13 @@ public class ModelChat {
     public record ChatGame(int agency, String base) implements EntityModel {
 
     }
-    public record ChatUser(String name, String role, String avatar, int upvotes, int downvotes) implements EntityModel {
-
+    public record ChatUser(int roomId, String name, String role, String avatar, int upvotes, int downvotes) implements EntityModel {
+        public ChatUser(String name){
+            this(0, name, "Newbie", "", 0, 0);
+        }
     }
 
-    public record ChatUserMessage(int userId, String message, int upvotes, int downvotes) implements EntityModel {
+    public record ChatUserMessage(int userId, int roomId, String message, int upvotes, int downvotes) implements EntityModel {
 
     }
     //maybe not? Can it be just a string without anything else?

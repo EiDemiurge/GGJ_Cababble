@@ -23,9 +23,13 @@ public abstract class ChatEntity<M extends EntityModel> {
         this.model = model;
         uuid = GLOBAL_ID++;
         base = createParams(model);
+        current = base.copy();
         props = createProps(model);
         id = newId();
+        added();
     }
+
+    protected abstract void added();
 
     protected abstract int newId();
 
@@ -62,7 +66,7 @@ public abstract class ChatEntity<M extends EntityModel> {
         return copyWith(model, current, props);
     }
 
-    public EntityDataWrite<M> write() {
+    public EntityDataWrite<M> writer() {
         return EntityDataWriteProvider.write(
                 (param, i) -> current.put(param, i),
                 (prop, val) -> props.put(prop, val),
@@ -70,7 +74,7 @@ public abstract class ChatEntity<M extends EntityModel> {
                 );
     }
 
-    public EntityDataRead<M> read() {
+    public EntityDataRead<M> reader() {
         return EntityDataReadProvider.read(this);
     }
 

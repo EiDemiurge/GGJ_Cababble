@@ -4,19 +4,21 @@ import ggj.engine.logic.entity.stat.Parameter;
 import ggj.engine.logic.entity.stat.Property;
 import ggj.engine.logic.entity.stat.param.MsgParam;
 import ggj.engine.logic.entity.stat.prop.MsgProp;
-import ggj.engine.logic.model.ModelChat;
+import ggj.engine.logic.state.EntityMapper;
 
 import static ggj.engine.logic.model.ModelChat.*;
 
 public class Message extends ChatEntity<ChatUserMessage> {
 
-    public static final Property<ModelChat.ChatUserMessage>[] props = MsgProp.values();
-    public static final Parameter<ModelChat.ChatUserMessage>[] params = MsgParam.values();
-
     private static int MSG_ID=0;
 
     public Message(ChatUserMessage model) {
         super(model);
+    }
+
+    @Override
+    protected void added() {
+        EntityMapper.addedMsg(current.get(MsgParam.ROOM_ID), current.get(MsgParam.USER_ID), this);
     }
 
     @Override
@@ -26,12 +28,12 @@ public class Message extends ChatEntity<ChatUserMessage> {
 
     @Override
     protected Property<ChatUserMessage>[] getPropConstants() {
-        return props;
+        return MsgProp.values();
     }
 
     @Override
     protected Parameter<ChatUserMessage>[] getParamConstants() {
-        return params;
+        return MsgParam.values();
     }
 
     @Override

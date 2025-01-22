@@ -4,8 +4,8 @@ import ggj.engine.logic.model.ModelChat;
 
 public class Demo {
     public enum StdUsers {
-        Bob(new ModelChat.ChatUser("Dobby","","",0,0)),
-        Admin(new ModelChat.ChatUser("Adamin","","",0,0)),
+        Bob(new ModelChat.ChatUser("Dobby")),
+        Admin(new ModelChat.ChatUser("Adamin")),
         ;
         final ModelChat.ChatUser user;
 

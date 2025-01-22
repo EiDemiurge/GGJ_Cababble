@@ -6,15 +6,11 @@ import ggj.engine.logic.entity.stat.PropMap;
 import ggj.engine.logic.entity.stat.Property;
 import ggj.engine.logic.entity.stat.param.RoomParam;
 import ggj.engine.logic.entity.stat.prop.RoomProp;
-import ggj.engine.logic.entity.stat.prop.UserProp;
-import ggj.engine.logic.model.ModelChat;
+import ggj.engine.logic.state.EntityMapper;
 
 import static ggj.engine.logic.model.ModelChat.*;
 
 public class Room extends ChatEntity<ChatRoom> {
-
-    public static final Property<ChatRoom>[] props = RoomProp.values();
-    public static final Parameter<ChatRoom>[] params = RoomParam.values();
 
     private static int ROOM_ID = 0;
 
@@ -23,8 +19,12 @@ public class Room extends ChatEntity<ChatRoom> {
     }
 
     @Override
+    protected void added() {
+        EntityMapper.addedRoom(this);
+    }
+
+    @Override
     protected ChatRoom copyWith(ChatRoom model, ParamMap<ChatRoom> current, PropMap<ChatRoom> props) {
-        //TODO
         return new ChatRoom(props.get(RoomProp.NAME), null);
     }
 
@@ -35,12 +35,12 @@ public class Room extends ChatEntity<ChatRoom> {
 
     @Override
     protected Property<ChatRoom>[] getPropConstants() {
-        return props;
+        return RoomProp.values();
     }
 
     @Override
     protected Parameter<ChatRoom>[] getParamConstants() {
-        return params;
+        return RoomParam.values();
     }
 
     public int getId() {

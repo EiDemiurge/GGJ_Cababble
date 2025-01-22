@@ -10,7 +10,8 @@ import static ggj.engine.logic.model.ModelChat.ChatUser;
 public enum UserParam implements Parameter<ModelChat.ChatUser> {
 
     UPVOTES(ChatUser::upvotes),
-
+    DOWNVOTES(ChatUser::downvotes),
+    ROOM_ID(ChatUser::roomId)
     ;
     private final Function<ChatUser, Integer> getter;
 
