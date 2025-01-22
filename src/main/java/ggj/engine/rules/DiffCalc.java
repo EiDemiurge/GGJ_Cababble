@@ -2,6 +2,11 @@ package ggj.engine.rules;
 
 public class DiffCalc {
 
+    public static int calc(String base, String message) {
+
+        return 0;
+    }
+
     public int diff(String base, String modified){
 /*
 Hello, fellow human beings!

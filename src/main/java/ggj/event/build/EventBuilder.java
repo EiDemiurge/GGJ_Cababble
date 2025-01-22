@@ -2,6 +2,7 @@ package ggj.event.build;
 
 import ggj.event.model.api.Event;
 import ggj.event.model.api.EventType;
+import ggj.util.datastruct.StringMap;
 
 import java.util.function.BiFunction;
 
@@ -24,28 +25,33 @@ public class EventBuilder<T extends EventType> {
     //     return this;
     // }
 
-    public EventBuilder<T> arg(Object value) {
-        if (args != null) {
-            throw new RuntimeException("Double init of event args with " + value);
-        }
-        this.args = new Events.EventArgs(value);
+    public EventBuilder<T> with(Object value) {
+        this.value = value;
+        // if (args != null) {
+        //     throw new RuntimeException("Double init of event args with " + value);
+        // }
         return this;
     }
 
-    // public EventBuilder<T> keys(String... keys) {
-    //     this.keys = keys;
-    //     return this;
-    // }
-    //
-    // public EventBuilder<T> values(Object... values) {
-    //     this.values = values;
-    //     return this;
-    // }
+    public EventBuilder<T> keys(String... keys) {
+        this.keys = keys;
+        return this;
+    }
 
+    public EventBuilder<T> values(Object... values) {
+        this.values = values;
+        return this;
+    }
 
     public void fire() {
+        if (keys !=null && values !=null){
+            this.args = new Events.EventArgs(new StringMap<>(keys, values));
+        }
+        if (value !=null){
+            this.args = new Events.EventArgs(value);
+        }
         if (args == null){
-            args = new Events.EmptyEventArgs();
+            this.args = new Events.EmptyEventArgs();
         }
         Events.fire(creator.apply(type, args));
     }

@@ -1,7 +1,7 @@
 package ggj.engine.logic.state.delta;
 
 import ggj.engine.logic.entity.ChatEntity;
-import ggj.engine.util.stat.Parameter;
+import ggj.engine.logic.entity.stat.Parameter;
 
 import java.util.function.Function;
 

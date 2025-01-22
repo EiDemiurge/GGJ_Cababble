@@ -27,9 +27,12 @@ public class Events {
 
     private static final Map<Class, EventQueue> queueMap = new HashMap<>();
 
+
+    //add block() to wait until handled?
+
     public static <T extends EventType> void fire(Event<T> event) {
-        Log.info("Event added to queue: " + ggj.util.Format.event(event));
         queueMap.get(event.getClass()).put(event);
+        Log.info("Event added to queue: " + ggj.util.Format.event(event));
     }
 
     public static <E extends Event<?>> EventQueue<E> newQueue(Class<E> clazz) {
@@ -74,6 +77,19 @@ public class Events {
         public EventArgs(StringMap<?> kwargs, Object... args) {
             this.kwargs = kwargs;
             this.args = args;
+        }
+
+        public String value(){
+            return args[0].toString();
+        }
+        public String string(String key){
+            return kwargs.get(key).toString();
+        }
+
+        //should go into StringMapGeneric?
+        public Integer num(String key){
+            // optional?
+            return Integer.getInteger(kwargs.get(key).toString());
         }
     }
 

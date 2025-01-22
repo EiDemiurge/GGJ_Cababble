@@ -1,4 +1,4 @@
-package ggj.engine.util.stat;
+package ggj.engine.logic.entity.stat.generic;
 
 public class IntParam {
     public final int max;

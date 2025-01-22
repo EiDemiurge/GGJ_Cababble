@@ -21,6 +21,7 @@ public enum Game_Event implements EventType {
     BAN_NPC,
     BAN_PLAYER,
 
+    EXIT_NPC,
     ENTER_NPC,
     ENTER_PLAYER,
 
