@@ -1,5 +1,7 @@
 package ggj.util;
 
+import ggj.engine.logic.state.Entities;
+import ggj.engine.logic.state.EntityMapper;
 import ggj.engine.logic.state.GameState;
 import ggj.event.model.api.Event;
 import ggj.util.datastruct.StringMap;
@@ -7,6 +9,14 @@ import ggj.util.datastruct.StringMap;
 import java.util.Map;
 
 public class Format {
+
+    public static String state(GameState state) {
+        //TODO
+        // EntityMapper.getRoomIdToMsg()
+        // Entities.findRoom()
+        return null;
+    }
+
     public static String event(Event<?> event) {
         return format("%s - %s: %s", event.getClass().getSimpleName(), event.type().toString(), event.args());
     }
@@ -30,10 +40,5 @@ public class Format {
             body.append(o).append(",");
         }
         return "[%s]".formatted(body);
-    }
-
-    public static String state(GameState state) {
-        // state.rooms
-        return null;
     }
 }

@@ -7,7 +7,7 @@ import ggj.event.model.api.EventType;
 public enum User_Event implements EventType {
     MSG_SENT("roomId", "message"),
     RE_ROLL,
-    ROOM_SWITCH,
+    ROOM_SWITCH("roomId"),
 
 ;
     String[] stdKeys;

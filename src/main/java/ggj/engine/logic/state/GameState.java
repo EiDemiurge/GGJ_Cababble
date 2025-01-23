@@ -7,9 +7,10 @@ import ggj.engine.logic.entity.User;
 
 import java.util.Set;
 
+//could be a record?
 public class GameState {
 
-    static GameState state;
+    private static GameState state;
 
     public static GameState getState() {
         return state;

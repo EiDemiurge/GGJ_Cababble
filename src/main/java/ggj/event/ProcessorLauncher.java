@@ -1,6 +1,10 @@
 package ggj.event;
 
+import ggj.event.build.Events;
+import ggj.event.process.EventQueue;
 import ggj.event.process.QueueProcessor;
+
+import java.util.concurrent.BlockingQueue;
 
 import static ggj.event.model.Engine_Event.*;
 import static ggj.event.model.User_Event.*;
@@ -14,7 +18,7 @@ public class ProcessorLauncher {
     private static QueueProcessor<GuiEvent> guiProcessor;
     private static QueueProcessor<GameEvent> gameProcessor;
 
-    //@Injection
+    // @Injection
     public static void setup(QueueProcessor<EngineEvent> engineProcessor,
                              QueueProcessor<UserEvent> userProcessor,
                              QueueProcessor<GuiEvent> guiProcessor,
@@ -25,14 +29,23 @@ public class ProcessorLauncher {
         ProcessorLauncher.gameProcessor = gameProcessor;
     }
 
-    public static void launch() {
+    public static EventQueue<GuiEvent> launch() {
         launch(engineProcessor, "engine");
-        launch(userProcessor, "user");
-        launch(guiProcessor, "gui");
         launch(gameProcessor, "game");
+        return guiProcessor.getQueue();
     }
 
     private static void launch(QueueProcessor<?> processor, String hint) {
         new Thread(processor, hint + " event processor").start();
+    }
+
+    public static void mockClientQueue() {
+        clientQueue(Events.newQueue(UserEvent.class));
+        launch(guiProcessor, "gui"); //instead of a real consumer of gui events
+    }
+
+    public static void clientQueue(EventQueue<UserEvent> userEvents) {
+        Events.newQueue(UserEvent.class, userEvents);
+        launch(userProcessor.copyWith(userEvents), "user");
     }
 }

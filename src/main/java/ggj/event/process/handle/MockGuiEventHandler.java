@@ -1,6 +1,7 @@
 package ggj.event.process.handle;
 
 import ggj.engine.logic.model.ModelChat;
+import ggj.util.Log;
 
 import java.util.function.Function;
 
@@ -27,7 +28,7 @@ public class MockGuiEventHandler implements EventHandler<GuiEvent> {
                 ModelChat.ChatUser data = userDataProvider.apply(userId);
                 ModelChat.ChatRoom room = roomDataProvider.apply(roomId);
 
-                System.out.println(
+                Log.info(
                         "[%s] %s writes: \n - '%s'".formatted(room.name(), data.name(), event.args().string("message")));
             }
         }

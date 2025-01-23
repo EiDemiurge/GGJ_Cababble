@@ -29,16 +29,26 @@ public class Rules {
         EntityMapper.addedUser(roomId, user);
     }
 
+    public static void quitRoom(int userId) {
+        quit(userId, false);
+    }
     public static void banned(int userId) {
+        quit(userId, true);
+    }
+
+    private static void quit(int userId, boolean ban) {
         var user = userProvider.find(userId);
         int roomId = user.getRoomId();
-        user.setBanned(true);
-        EntityMapper.userBanned(user, roomId);
+        if (ban){
+            user.setBanned(true);
+        }
+        EntityMapper.userExitRoom(user, roomId);
     }
 
     public static void processMsgImpact(Message msg) {
-
+        //TODO
     }
+
 
 /*
 At this point we just want to test.

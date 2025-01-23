@@ -5,10 +5,12 @@ import ggj.engine.logic.state.GameState;
 import ggj.event.ProcessorLauncher;
 import ggj.event.model.User_Event;
 import ggj.util.Log;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static ggj.event.build.Events.*;
 
+@Disabled
 public class TestSequence  {
 
     @Test

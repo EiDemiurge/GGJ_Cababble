@@ -21,8 +21,11 @@ import ggj.util.datastruct.StringMap;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
+
+import static ggj.util.Format.*;
 
 // @Getter for static fields?
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -40,21 +43,24 @@ public class Events {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        Log.info("Added to queue: " + ggj.util.Format.event(event));
+        Log.info("Added to queue: " + event(event));
     }
 
-    private static <T extends EventType> void validateEvent(Event<T> event) {
+    public static <T extends EventType> void validateEvent(Event<T> event) {
         if (!event.args().kwargs.keySet().containsAll(
-            Arrays.stream(event.type().stdKeys()).map(String::toLowerCase).collect(Collectors.toSet())
+                Arrays.stream(event.type().stdKeys()).map(String::toLowerCase).collect(Collectors.toSet())
         )) {
             throw new RuntimeException("Invalid event: %s, required keys: %s"
-                    .formatted(Format.array(event.args().kwargs.keySet().toArray(new String[0])),
-                               Format.array(event.type().stdKeys())));
+                    .formatted(array(event.args().kwargs.keySet().toArray(new String[0])),
+                            array(event.type().stdKeys())));
         }
     }
 
     public static <E extends Event<?>> EventQueue<E> newQueue(Class<E> clazz) {
-        EventQueue<E> queue = new EventQueue<>();
+        return newQueue(clazz, new EventQueue<>());
+    }
+
+    public static <E extends Event<?>> EventQueue<E> newQueue(Class<E> clazz, EventQueue<E> queue) {
         queueMap.put(clazz, queue);
         return queue;
     }
@@ -87,19 +93,19 @@ public class Events {
             this.kwargs = kwargs;
         }
 
-        public String string(String key){
+        public String string(String key) {
             return kwargs.get(key).toString();
         }
 
         //should go into StringMapGeneric?
-        public Integer num(String key){
+        public Integer num(String key) {
             // optional?
             return Integer.valueOf(kwargs.get(key).toString());
         }
 
         @Override
         public String toString() {
-            return Format.map(kwargs);
+            return map(kwargs);
         }
 
         public void put(String key, Object value) {

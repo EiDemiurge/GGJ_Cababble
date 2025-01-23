@@ -34,14 +34,22 @@ public class EventBuilder<T extends EventType> {
         return this;
     }
 
+    public Event<T> build() {
+        initArgs();
+        return creator.apply(type, args);
+    }
+
     public void fire() {
+        Events.fire(build());
+    }
+
+    private void initArgs() {
         if (keys !=null && values !=null){
             this.args = new Events.EventArgs(new StringMap(keys, values));
         }
         if (args == null){
             this.args = new Events.EmptyEventArgs();
         }
-        Events.fire(creator.apply(type, args));
     }
 
     public EventBuilder(T type) {

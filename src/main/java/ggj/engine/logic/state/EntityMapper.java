@@ -47,8 +47,20 @@ public class EntityMapper {
         return roomIdToUser.get(roomId).stream().anyMatch(user -> user.getId() == userId);
     }
 
-    public static void userBanned(User user, int roomId) {
+    public static void userExitRoom(User user, int roomId) {
         roomIdToUser.get(roomId).remove(user);
         // roomIdToUser.computeIfPresent(roomId, (id, list) -> )
+    }
+
+    public static Map<Integer, List<User>> getRoomIdToUser() {
+        return roomIdToUser;
+    }
+
+    public static Map<Integer, List<Message>> getRoomIdToMsg() {
+        return roomIdToMsg;
+    }
+
+    public static Map<Integer, List<Message>> getUserIdToMsg() {
+        return userIdToMsg;
     }
 }

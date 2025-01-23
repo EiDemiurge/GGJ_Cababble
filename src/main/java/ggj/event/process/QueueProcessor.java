@@ -20,7 +20,11 @@ public class QueueProcessor<E extends Event> implements Runnable {
             try {
                 E take = queue.take();
                 if (!stopped) {
-                    handler.accept(take);
+                    try{
+                        handler.accept(take);
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -30,5 +34,13 @@ public class QueueProcessor<E extends Event> implements Runnable {
 
     public void stop() {
         stopped = true;
+    }
+
+    public EventQueue<E> getQueue() {
+        return queue;
+    }
+
+    public QueueProcessor<E> copyWith(EventQueue<E> queue) {
+        return new QueueProcessor<>(queue, handler);
     }
 }
